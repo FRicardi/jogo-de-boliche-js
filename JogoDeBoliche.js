@@ -162,14 +162,21 @@ class JogoDeBoliche {
       // Para chegar aqui, haverá um spare ou strike, então cria um objeto da próxima posição
       const proximoQuadro = this.quadros[indice + 1];
       if (quadro.spare) {
-        console.log(`+ spare: ${(proximoQuadro.jogada1 ? proximoQuadro.jogada1 : 0)}`);
-
+        
         // Caso haja um spare, retorna a pontuação base mais a primeira jogada do próximo quadro
+        console.log(`+ spare: ${(proximoQuadro.jogada1 ? proximoQuadro.jogada1 : 0)}`);
         return pontuacaoBase + (proximoQuadro.jogada1 ? proximoQuadro.jogada1 : 0);
       } else {
-        console.log(`+ strike: ${(proximoQuadro.jogada1 ? proximoQuadro.jogada1 : 0) + (proximoQuadro.jogada2 ? proximoQuadro.jogada2 : 0)}`)
+        const doisQuadrosAdiante = this.quadros[indice + 2];
+
+        // Caso haja strike na próxima jogada, returna a pontuação de dois quadros adiantes, já que o próximo terá somente um
+        if(proximoQuadro.strike) {
+          console.log(`+ strike: ${(proximoQuadro.jogada1 ? proximoQuadro.jogada1 : 0) + (doisQuadrosAdiante.jogada1 ? doisQuadrosAdiante.jogada1 : 0)}`)
+          return pontuacaoBase + (proximoQuadro.jogada1 ? proximoQuadro.jogada1 : 0) + (doisQuadrosAdiante.jogada1 ? doisQuadrosAdiante.jogada1 : 0);
+        }
 
         // Caso haja um strike, retorna a pontuação base mais a pontuação total do próximo quadro
+        console.log(`+ strike: ${(proximoQuadro.jogada1 ? proximoQuadro.jogada1 : 0) + (proximoQuadro.jogada2 ? proximoQuadro.jogada2 : 0)}`)
         return pontuacaoBase + (proximoQuadro.jogada1 ? proximoQuadro.jogada1 : 0) + (proximoQuadro.jogada2 ? proximoQuadro.jogada2 : 0)
       }
     }
